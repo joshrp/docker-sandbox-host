@@ -3,9 +3,10 @@
 set -e
 
 sudo apt-get update
-sudo apt-get -y install linux-image-extra-name `uname -r`
+sudo apt-get -y install linux-image-extra-`uname -r`
 
-mount -M /mnt /var/lib/docker
+mkdir -p /var/lib/docker
+mount -M /mnt /var/lib/docker || true
 
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
 
@@ -16,11 +17,11 @@ sudo apt-get -y install lxc-docker
 
 sudo apt-get update && sudo apt-get -y install cgroup-lite
 
-sudo apt-get install nginx
+sudo apt-get -y install nginx
 
-cp /setupHost/nginx/proxy_buffers.conf /etc/nginx/conf.d/
-ln -s /setupHost/nginx/sandbox-proxy /etc/nginx/sites-enabled
+sudo cp /setupHost/nginx/proxy_buffers.conf /etc/nginx/conf.d/
+sudo ln -s /setupHost/nginx/sandbox-proxy /etc/nginx/sites-enabled
 
-service nginx restart
+sudo service nginx restart
 
 
