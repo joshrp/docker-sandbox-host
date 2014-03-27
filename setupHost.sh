@@ -3,7 +3,7 @@
 set -e
 
 sudo apt-get update
-sudo apt-get -y install linux-image-extra-name -r
+sudo apt-get -y install linux-image-extra-name `uname -r`
 
 mount -M /mnt /var/lib/docker
 
