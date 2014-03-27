@@ -1,0 +1,32 @@
+map $number $sandboxip {
+        1       172.17.0.2;
+	2       172.17.0.3;
+	3	172.17.0.4;
+	4	172.17.0.5;
+	5	172.17.0.6;
+	6	172.17.0.7;
+	7	172.17.0.8;
+	8	172.17.0.9;
+	9	172.17.0.10;
+	10	172.17.0.11;
+}
+
+server {
+	listen 80;
+	listen 81;
+	listen 82;
+	
+	server_name ~^(?<number>\d+)\..*;
+
+	location / {
+		include proxy_params;
+		proxy_set_header		X-Cookie-ckps_tviplayer_preview 1;
+		proxy_pass_request_headers      on;
+
+		access_log /var/log/nginx/sandbox.$number.access.log;
+		error_log /var/log/nginx/sandbox.$number.error.log;
+
+		proxy_pass http://$sandboxip:$server_port;
+	}
+
+}
